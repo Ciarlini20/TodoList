@@ -18,7 +18,7 @@ export function List(props : ListProps){
   }
 
   function handleToggleTaskCompleted(data : FormEvent){
-    if( data == true){
+    if( data == true ){
       props.onCompletedTask(true)
     }else{
       props.onCompletedTask(false)
@@ -38,7 +38,7 @@ export function List(props : ListProps){
               <Check size={14} className='text-gray_100'/>
             </Checkbox.Indicator>
           </div>
-          <span className='group-data-[state=checked]:line-through group-data-[state=checked]:text-gray_300'>{props.task}</span>
+          <span className='group-data-[state=checked]:line-through group-data-[state=checked]:text-gray_300 text-left'>{props.task}</span>
         </Checkbox.Root>
       </div>
       <button 

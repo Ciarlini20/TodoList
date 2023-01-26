@@ -1,5 +1,6 @@
 import { PlusCircle } from "phosphor-react";
 import { FormEvent, useState } from "react";
+import { EmptyList } from "./EmptyList";
 import { List } from "./List";
 
 export function CreateNewTask(){
@@ -8,6 +9,9 @@ export function CreateNewTask(){
   const [newTask, setNewTask] = useState('')
   const [tasksCount, setTasksCount] = useState(0)
   const [completedTasks, setCompletedTasks] = useState(0)
+
+
+  
 
   function handleCreateNewTask(event: FormEvent){
     event.preventDefault()
@@ -68,19 +72,21 @@ export function CreateNewTask(){
         </p>
         <p className="flex flex-row gap-2 justify-center items-center">
           <span className="text-purple text-sm">Tarefas concluidas</span>
-          <span className="flex justify-center items-center bg-gray_400 text-gray_200 text-xs rounded-lg p-2">{completedTasks} de {tasksCount}</span>
+          <span className="flex justify-center items-center bg-gray_400 text-gray_200 text-xs rounded-lg p-2">{tasksCount == 0 ? ('0') : (`${completedTasks} de ${tasksCount}`)}</span>
         </p>
       </div>
-        {tasks.map((task, i) => {
-          return(
-            <List 
-              key={`${task} - ${i}`} 
-              task={task} 
-              onDeleteTask={deleteTask}
-              onCompletedTask={completedTask}
-            />
-          )
+
+      { tasks.length == 0 ? <EmptyList/> : tasks.map((task, i) => {
+            return(
+              <List 
+                key={`${task} - ${i}`} 
+                task={task} 
+                onDeleteTask={deleteTask}
+                onCompletedTask={completedTask}
+              />
+            )  
         })}
+        
       </div>
     </div>
   )
