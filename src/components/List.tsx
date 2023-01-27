@@ -1,9 +1,9 @@
 import * as Checkbox from '@radix-ui/react-checkbox';
 import { Check, Trash } from 'phosphor-react';
-import {  FormEvent } from 'react';
+import { TasksProps } from './CreateNewTask';
 
 interface ListProps {
-  task: string
+  task: TasksProps
   onDeleteTask: (item: string) => void
   onCompletedTask: (isCompleted: boolean) => void
 }
@@ -14,10 +14,10 @@ export function List(props : ListProps){
   
 
   function handleDeleteTask(){
-    props.onDeleteTask(props.task)
+    props.onDeleteTask(props.task.id)
   }
 
-  function handleToggleTaskCompleted(data : FormEvent){
+function handleToggleTaskCompleted(data : boolean){
     if( data == true ){
       props.onCompletedTask(true)
     }else{
@@ -31,14 +31,14 @@ export function List(props : ListProps){
       <div>
         <Checkbox.Root 
           className='flex items-center gap-3 group'
-          onCheckedChange={handleToggleTaskCompleted}
+         onCheckedChange={handleToggleTaskCompleted}
         >
           <div className='border-2 border-blue rounded-full w-5 h-5 flex items-center justify-center group-data-[state=checked]:bg-purple_dark group-data-[state=checked]:border-purple_dark'>
             <Checkbox.Indicator>
               <Check size={14} className='text-gray_100'/>
             </Checkbox.Indicator>
           </div>
-          <span className='group-data-[state=checked]:line-through group-data-[state=checked]:text-gray_300 text-left'>{props.task}</span>
+          <span className='group-data-[state=checked]:line-through group-data-[state=checked]:text-gray_300 text-left'>{props.task.title}</span>
         </Checkbox.Root>
       </div>
       <button 

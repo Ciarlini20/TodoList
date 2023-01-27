@@ -3,38 +3,46 @@ import { FormEvent, useState } from "react";
 import { EmptyList } from "./EmptyList";
 import { List } from "./List";
 
+export interface TasksProps{
+  title: string,
+  id: string,
+  isCompleted: boolean
+}
 export function CreateNewTask(){
 
-  const [tasks, setTasks] = useState<string[]>([])
-  const [newTask, setNewTask] = useState('')
+
+  const [tasks, setTasks] = useState<TasksProps[]>([])
+  const [taskTitle, setTaskTitle] = useState('')
   const [tasksCount, setTasksCount] = useState(0)
   const [completedTasks, setCompletedTasks] = useState(0)
-
-
-  
 
   function handleCreateNewTask(event: FormEvent){
     event.preventDefault()
 
-    if(newTask.length == 0){
+    const newTask = {
+      title: taskTitle,
+      id: crypto.randomUUID(),
+      isCompleted: false
+    }
+
+    if(taskTitle.length == 0){
       alert('Por favor digite uma tarefa válida')
       return
     }else{
       setTasks([...tasks, newTask])
       setTasksCount(tasksCount + 1)
-      setNewTask('')
+      setTaskTitle('')
     }
   }
-
+  
   function deleteTask(taskToDelete: string){
     const taskListWithDeletedOne = tasks.filter(task => {
-      return task != taskToDelete
+      return  task.id != taskToDelete
    
     })
-
     setTasks(taskListWithDeletedOne)
-    setTasksCount(tasksCount - 1) 
-  }
+    setTasksCount(tasksCount - 1)
+    }
 
   function completedTask(isCompleted: boolean){
     if (isCompleted == true){
@@ -54,8 +62,8 @@ export function CreateNewTask(){
           type="text" 
           className="bg-gray_500 w-full border border-gray_700 rounded-lg pl-4 py-4 text-white"
           placeholder="Adicione uma nova tarefa"
-          value={newTask}
-          onChange={(e) => {setNewTask(e.target.value)}}
+          value={taskTitle}
+          onChange={(e) => {setTaskTitle(e.target.value)}}
         />
         <button 
           type="submit"
