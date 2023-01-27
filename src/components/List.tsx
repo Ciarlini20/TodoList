@@ -1,33 +1,37 @@
 import * as Checkbox from '@radix-ui/react-checkbox';
 import { Check, Trash } from 'phosphor-react';
+import { useState } from 'react';
 import { TasksProps } from './CreateNewTask';
 
 interface ListProps {
   task: TasksProps
-  onDeleteTask: (item: string) => void
+  onDeleteTask: (item: string, isTaskCompleted : boolean) => void
   onCompletedTask: (isCompleted: boolean) => void
 }
 
 
 export function List(props : ListProps){
 
-  
+  const [isCompleted, setIsCompleted] = useState(false)
 
   function handleDeleteTask(){
-    props.onDeleteTask(props.task.id)
+    
+    props.onDeleteTask(props.task.id, isCompleted)
   }
 
 function handleToggleTaskCompleted(data : boolean){
     if( data == true ){
       props.onCompletedTask(true)
+      setIsCompleted(true)
     }else{
       props.onCompletedTask(false)
+      setIsCompleted(false)
     }
   }
 
 
   return(
-    <form className='w-full mt-6 flex items-center justify-between bg-gray_500 py-4 px-5 rounded-lg text-gray_100 text-sm'>
+    <div className='w-full mt-6 flex items-center justify-between bg-gray_500 py-4 px-5 rounded-lg text-gray_100 text-sm'>
       <div>
         <Checkbox.Root 
           className='flex items-center gap-3 group'
@@ -48,6 +52,6 @@ function handleToggleTaskCompleted(data : boolean){
       >
           <Trash size={20}/>
       </button>
-    </form>
+    </div>
   )
 }

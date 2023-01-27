@@ -35,8 +35,11 @@ export function CreateNewTask(){
     }
   }
   
-  function deleteTask(taskToDelete: string){
+  function deleteTask(taskToDelete: string, isTaskCompleted : boolean){
     const taskListWithDeletedOne = tasks.filter(task => {
+      if(task.id === taskToDelete && isTaskCompleted){
+        setCompletedTasks(completedTasks - 1)
+      }
       return  task.id != taskToDelete
    
     })
@@ -45,8 +48,10 @@ export function CreateNewTask(){
     }
 
   function completedTask(isCompleted: boolean){
+
     if (isCompleted == true){
       setCompletedTasks(completedTasks + 1)
+
     }else{
       setCompletedTasks(completedTasks - 1)
     }
@@ -84,10 +89,10 @@ export function CreateNewTask(){
         </p>
       </div>
 
-      { tasks.length == 0 ? <EmptyList/> : tasks.map((task, i) => {
+      { tasks.length == 0 ? <EmptyList/> : tasks.map((task) => {
             return(
               <List 
-                key={`${task} - ${i}`} 
+                key={task.id} 
                 task={task} 
                 onDeleteTask={deleteTask}
                 onCompletedTask={completedTask}
@@ -99,3 +104,4 @@ export function CreateNewTask(){
     </div>
   )
 }
+
